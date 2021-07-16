@@ -8,7 +8,7 @@ function ArgHolder() {
 }
 
 tap.test('JrdFactory', t => {
-  tap.test('JrdFactory#makeJrd', t => {
+  t.test('JrdFactory#makeJrd', t => {
     var factory = new JrdFactory(ArgHolder);
     var data = {};
     var jrd = factory.makeJrd(data);
@@ -16,7 +16,7 @@ tap.test('JrdFactory', t => {
     expect(jrd.inputs[0]).to.equal(data);
     expect(jrd.inputs[1]).to.not.equal(data);
 
-    tap.test('JrdFactory#makeJrd with static default Jrd', t => {
+    t.test('JrdFactory#makeJrd with static default Jrd', t => {
       var previous = JrdFactory.JSONResourceDefinition;
       delete JrdFactory.JSONResourceDefinition;
 
@@ -40,7 +40,7 @@ tap.test('JrdFactory', t => {
     t.end();
   });
 
-  tap.test('JrdFactory#makeJrdConfig', t => {
+  t.test('JrdFactory#makeJrdConfig', t => {
     var factory = new JrdFactory(ArgHolder);
     var jrd = factory.makeJrd({});
     var config = factory.makeJrdConfig();
