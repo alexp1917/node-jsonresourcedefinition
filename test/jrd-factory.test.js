@@ -16,6 +16,27 @@ tap.test('JrdFactory', t => {
     expect(jrd.inputs[0]).to.equal(data);
     expect(jrd.inputs[1]).to.not.equal(data);
 
+    tap.test('JrdFactory#makeJrd with static default Jrd', t => {
+      var previous = JrdFactory.JSONResourceDefinition;
+      delete JrdFactory.JSONResourceDefinition;
+
+      var factory = new JrdFactory(false);
+
+      var noJrdError = t.throws(() => factory.makeJrd({}));
+      expect(noJrdError).to.be.ok
+      expect(noJrdError).to.have.property('code', JrdFactory.NO_JRD_CLASS);
+
+      JrdFactory.JSONResourceDefinition =
+        function Fake() { this.inputs = arguments; };
+
+      var jrd = factory.makeJrd({});
+      expect(jrd).to.be.instanceOf(JrdFactory.JSONResourceDefinition);
+
+      JrdFactory.JSONResourceDefinition = previous;
+
+      t.end();
+    });
+
     t.end();
   });
 
