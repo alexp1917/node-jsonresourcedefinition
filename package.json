@@ -1,0 +1,16 @@
+{
+  "name": "node-jsonresourcedefinition",
+  "version": "0.0.1",
+  "description": "JSON Resource Definition class",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap"
+  },
+  "keywords": [],
+  "author": "Alexander Pavlovich <alexpimt1917@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "tap": "^15.0.9"
+  }
+}
