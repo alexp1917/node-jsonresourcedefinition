@@ -64,6 +64,55 @@ tap.test('JSONResourceDefinition', t => {
     t.end();
   });
 
+  t.test('JSONResourceDefinition immutablity', t => {
+    var jrdImm = new JSONResourceDefinition({}, { immutable: true });
+    var jrdImm2 = jrdImm.setSubject('http://example.com');
+
+    expect(jrdImm.isImmutable()).to.be.ok;
+    expect(jrdImm2.isImmutable()).to.be.ok;
+
+    var jrdNonImm = new JSONResourceDefinition({});
+    var jrdNonImm2 = jrdNonImm.setSubject('http://example.com');
+
+    expect(jrdNonImm.isImmutable()).to.not.be.ok;
+    expect(jrdNonImm2.isImmutable()).to.not.be.ok;
+
+    expect(jrdImm).not.to.equal(jrdImm2);
+    expect(jrdNonImm).to.equal(jrdNonImm2);
+
+    t.end();
+  });
+
+  t.test('JSONResourceDefinition#setAliases (validation)', t => {
+    var jrd = new JSONResourceDefinition();
+    var aliases = ['a', 'b'];
+
+    var jrd2 = jrd.setAliases(aliases);
+    expect(jrd).to.equal(jrd2);
+    expect(jrd.aliases).to.equal(aliases);
+
+    t.throws(() => jrd.setAliases(null));
+    t.throws(() => jrd.setAliases('abc'));
+    t.throws(() => jrd.setAliases([1]));
+
+    t.end();
+  });
+
+  t.test('JSONResourceDefinition#clearAliases', t => {
+    var jrd = new JSONResourceDefinition();
+    expect(jrd.aliases).to.not.be.ok;
+    jrd.clearAliases();
+    expect(jrd.aliases).to.be.ok;
+    expect(jrd.aliases).to.have.length(0);
+    jrd.setAliases(['a']);
+    expect(jrd.aliases).to.be.ok;
+    expect(jrd.aliases).to.have.length(1);
+    jrd.clearAliases();
+    expect(jrd.aliases).to.have.length(0);
+
+    t.end();
+  });
+
   t.test('JSONResourceDefinition immutable disables setters', t => {
     var jrd = new JSONResourceDefinition({}, { immutable: true, });
     jrd.subject = 'newsubject';
